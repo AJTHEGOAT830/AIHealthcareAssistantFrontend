@@ -9,6 +9,10 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "This app needs access to the microphone for voice analysis.",
+        "NSCameraUsageDescription": "This app needs camera access to take photos."
+      },
       "supportsTablet": true
     },
     "android": {
