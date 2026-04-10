@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Platform } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LOCAL_IP = Platform.OS === "android"
     ? "10.0.2.2" // Android emulator
@@ -14,17 +15,19 @@ export default function ChatbotScreen() {
 
     const sendMessage = async () => {
         if (!input.trim() || loading) return;
-
+        const userId = await AsyncStorage.getItem('user_id');
         const userMsg = input;
         setMessages(prev => [...prev, "You: " + userMsg]);
         setInput("");
         setLoading(true);
 
         try {
+            const userId = await AsyncStorage.getItem('user_id');
+            console.log("Sending message for user:", userId);
             const res = await fetch(API_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: userMsg }),
+                body: JSON.stringify({ message: userMsg, user_id: userId }),
             });
 
             if (!res.ok) {
